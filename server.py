@@ -27,9 +27,9 @@ def presence_response(presence_message):
             presence_message[ACTION] == PRESENCE and \
             TIME in presence_message and \
             isinstance(presence_message[TIME], float):
-        return {RESPONCE: 200}
+        return {RESPONSE: 200}
     else:
-        return {RESPONCE: 400, ERROR: 'был получен не верный запрос'}
+        return {RESPONSE: 400, ERROR: 'был получен не верный запрос'}
 
 
 if __name__ == '__main__':
