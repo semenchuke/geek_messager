@@ -39,3 +39,28 @@ def bytes_to_dict(byte_jim_message):
     else:
         # получили не байты
         return TypeError
+
+def send_message(sock, jim_message):
+    """
+    метод передачи сообщения
+    :param sock: сокет для передачи
+    :param message: сообщений
+    :return: None
+    """
+    # перевели словарь в байты
+    byte_message = dict_to_bytes(jim_message)
+    # отправили
+    sock.send(byte_message)
+
+def get_message(sock):
+    """
+    метод чтения сообщений
+    :param sock: сокет с которого принимаем
+    :return: словарь по протоколу jim
+    """
+    # получаем до 1024 байт
+    byte_jim_message = sock.recv(1024)
+    # пробуем перевести байты в словарь
+    jim_message = bytes_to_dict(byte_jim_message)
+    # если все ок возвращаем jim сообщение
+    return jim_message
