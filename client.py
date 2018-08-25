@@ -38,7 +38,8 @@ def create_presence(account_name="Guest"):
         TIME: time.time(),
         USER: {
             ACCOUNT_NAME: account_name
-        }
+        },
+        MESSAGE: 'Hello server'
     }
     # возвращаем
     return message
