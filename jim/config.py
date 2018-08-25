@@ -6,6 +6,7 @@ USER = 'user'
 ACCOUNT_NAME = 'account_name'
 RESPONSE = 'response'
 ERROR = 'error'
+MESSAGE = 'message'
 
 # Значения
 PRESENCE = 'presence'
