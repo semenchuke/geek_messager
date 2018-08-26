@@ -64,7 +64,7 @@ def translate_message(response):
     if len(str(code)) != 3:
         # Ошибка неверная длина кода ошибки
         raise ResponseCodeLenError(code)
-    # неправильные коды символов
+    # неправильные коды ответа
     if code not in RESPONSE_CODES:
         # ошибка неверный код ответа
         raise ResponseCodeError(code)
