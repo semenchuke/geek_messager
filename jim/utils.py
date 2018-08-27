@@ -16,6 +16,8 @@ def dict_to_bytes(jim_message):
         byte_jim_message = jim_message_json.encode(ENCODING)
         # перевод осуществлён - возвращаем
         return byte_jim_message
+    else:
+        raise TypeError
 
 def bytes_to_dict(byte_jim_message):
     """

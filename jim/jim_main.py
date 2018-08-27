@@ -1,6 +1,30 @@
 import time as ctime
 from .config import *
-from .jim_exceptions import WrongParamError, WrongActionError, WrongDictError
+from .jim_exceptions import WrongParamError, WrongActionError, WrongDictError, ToLongError, ResponseCodeError
+
+
+class MaxLengthField:
+    """Дескриптор ограничивающий размер поля"""
+
+    def __init__(self, name, max_length):
+        """
+        :param name: имя поля
+        :param max_length: максимальная длина
+        """
+        self.max_length = max_length
+        self.name = '_' + name
+
+    def __set__(self, instance, value):
+        # если длина поля больше максимального значения
+        if len(value) > self.max_length:
+            # вызываем ошибку
+            raise ToLongError(self.name, value, self.max_length)
+        # иначе записываем данные в поле
+        setattr(instance, self.name, value)
+
+    def __get__(self, instance, owner):
+        # получаем данные поля
+        return getattr(instance, self.name)
 
 
 class Jim:
@@ -60,7 +84,9 @@ class JimAction(Jim):
         return result
 
 class JimPresence(JimAction):
-    def __init__(self, account_name, time):
+    account_name = MaxLengthField('account_name', USERNAME_MAX_LENGTH)
+
+    def __init__(self, account_name, time=None):
         self.account_name = account_name
         super().__init__(PRESENCE, time)
 
@@ -70,7 +96,9 @@ class JimPresence(JimAction):
         return result
 
 class JimMessage(JimAction):
-    message = 'message'
+    to = MaxLengthField('to', USERNAME_MAX_LENGTH)
+    from_ = MaxLengthField('from', USERNAME_MAX_LENGTH)
+    message = MaxLengthField('message', MESSAGE_MAX_LENGTH)
 
     def __init__(self, to, from_, message, time=None):
         self.to = to
@@ -85,8 +113,28 @@ class JimMessage(JimAction):
         result[MESSAGE] = self.message
         return result
 
-class JimResponse(JimAction):
-    response = 'response'
+class ResponseField:
+    def __init__(self, name):
+        """
+        :param name: имя поля
+        """
+        self.name = '_' + name
+
+    def __set__(self, instance, value):
+        # если значение кода не входит в список доступных котов
+        if value not in RESPONSE_CODES:
+            # вызываем ошибку
+            raise ResponseCodeError(value)
+        # иначе записываем данные в поле
+        setattr(instance, self.name, value)
+
+    def __get__(self, instance, owner):
+        # получаем данные поля
+        return getattr(instance, self.name)
+
+
+class JimResponse(Jim):
+    response = ResponseField('response')
 
     def __init__(self, response, error=None, alert=None):
         self.response = response
