@@ -35,7 +35,7 @@ class User:
 
     def read_messages(self, sock):
         while True:
-            print('читаю')
+            print('Читаю')
             jim_message = get_message(sock)
             print(jim_message)
             print(jim_message[MESSAGE])
