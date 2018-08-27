@@ -6,10 +6,14 @@ USER = 'user'
 ACCOUNT_NAME = 'account_name'
 RESPONSE = 'response'
 ERROR = 'error'
-MESSAGE = 'message'
+ALERT = 'alert'
 
 # Значения
 PRESENCE = 'presence'
+MSG = 'msg'
+FROM = 'from'
+TO = 'to'
+MESSAGE = 'message'
 
 # Коды ответов (будут дополняться)
 BASIC_NOTICE = 100
@@ -20,3 +24,4 @@ SERVER_ERROR = 500
 
 # Кортеж из кодов ответов
 RESPONSE_CODES = (BASIC_NOTICE, OK, ACCEPTED, WRONG_REQUEST, SERVER_ERROR)
+ACTIONS = (PRESENCE, MSG)
